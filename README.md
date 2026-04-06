@@ -49,5 +49,3 @@ github: [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
 
 * ファイル名を変更しても署名を確認する場合
   signas verify renamed_example.txt example.signas
-
-さぁ！使いましょう！
