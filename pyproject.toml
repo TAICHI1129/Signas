@@ -1,6 +1,6 @@
 [project]
 name = "signas"
-version = "0.1.0"
+version = "0.1.1"
 description = "File digital signature"
 authors = [{name = "TAICHI1129", email = "train.x956@gmail.com"}]
 dependencies = []  # No external dependencies
