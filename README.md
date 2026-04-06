@@ -129,8 +129,5 @@ signas hash sample.txt
 
 ----
 
-## For the Windows Users
-If `signas` command does not work:
-
-Use:
-python -m signas.cli
+## Windowsユーザーへ
+`signas` コマンドが機能しない場合は `python -m signas.cli` を使用してください。
