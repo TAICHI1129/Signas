@@ -37,11 +37,8 @@ def sign_file(filepath, name, github=None):
     
     print(f"Signature created: {sign_path}")
 
-def usage():
-    print("Signas CLI")
-    print("Usage:")
-    print("  signas sign <file> <name> [github] : Sign the file with name and optional GitHub")
-    print("  signas hash <file>                  : Show SHA-256 hash of the file")
+def nf():
+    print("Command not found")
 
 def main():
     if len(sys.argv) < 3:
@@ -62,8 +59,11 @@ def main():
         hex_str = file_to_hex(filepath)
         hashed = hash_hex(hex_str)
         print(hashed)
+    else cmd == "view_info":
+        print(sign_data["signer"])
+        print(sign_data["hash"])
     else:
-        usage()
+        nf
 
-if __name__ == "__main__":
+i: __name__ == "__main__":
     main()
