@@ -4,7 +4,7 @@ version = "0.1.4"
 description = "File digital signature"
 readme = "README.md"
 authors = [{name = "TAICHI1129", email = "train.x956@gmail.com"}]
-dependencies = [cryptography] 
+dependencies = ["cryptography"] 
 
 [project.scripts]
 signas = "signas.cli:main"
