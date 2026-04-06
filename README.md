@@ -1,61 +1,66 @@
 # Signas
-File digital signature
+安全なファイルデジタル署名 & 整合性検証ツールSignas は、Python で動作する軽量な電子署名ツールです。
 
-Signas は Python で動作する軽量電子署名サービスです。
-ファイル改ざん検知と署名者確認が可能。リネームされてもハッシュ値で検出できます。
+RSA (2048-bit) 非対称暗号方式を採用しており、ファイルの「改ざん検知」だけでなく、「署名者の真正性」を確実に保証します。
 
-## 特徴
+## 主な特徴
+RSA デジタル署名: 署名ファイル（.signas）自体の偽造を防止します。
 
-* ファイル改ざん検知
-* 署名者の確認
-* CMD / ターミナルで動作
-* 依存ライブラリなし（標準 Python のみ）
-* .signas ファイルに署名者名（必須）と GitHub リンク（任意）を記録
+強力な改ざん検知: SHA-256 とストリーミング読み込みにより、数GBの巨大なファイルも低メモリで検証可能。
+
+身元証明: 署名者の名前と、任意で GitHub プロフィールを紐付け可能。
+
+監査ログ (Audit Log): すべての署名・検証の履歴を audit.log に自動記録。
+
+パスワード保護: 秘密鍵をパスフレーズで暗号化し、盗難時の不正署名を防ぎます。
 
 ## インストール
-
-pip install . を実行してインストールします。
-
-## CLI コマンド
-
-署名する場合は、`signas sign <file> <name>` と入力します。
-GitHub リンクも追加する場合は、`signas sign <file> <name> [github]` とします。
-
-ファイルの SHA-256 ハッシュを確認する場合は、`signas hash <file>` と入力します。
-
-署名の検証（リネームされたファイルでも確認可能）を行う場合は、`signas verify <file> <signas_file>` と入力します。
-
-## .signas ファイル仕様
-
-.signas ファイルは JSON 形式で保存されます。必須項目は "hash"（SHA-256 ハッシュ値）と "signer"（署名者名）です。
-任意項目として "github"（GitHub リンク）を追加できます。さらに元のファイル名は "original_filename" として記録されます。
-
-例として、次のような内容になります：
 ```
-hash: 5a51be41913d0de774d527c684ee849205b10672b65dcfdf6023dca04cc10217
-signer: TAICHI1129
-original_filename: example.txt
-github: [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
+bashpip install signas
+```
+(注意: RSA機能のために cryptography ライブラリが必要です)
+
+## 使い方 (CLI コマンド)
+1. 鍵の生成署名を始める前に、あなた専用の鍵ペアを作成します。
+```
+bashsignas genkey
 ```
 
-## 使用例
+private_key.pem: あなたの秘密鍵です（絶対に他人に渡さないでください！）。
 
-* 名前のみで署名する場合
+public_key.pem: あなたの公開鍵です（検証者に渡してください）。
+
+2. ファイルに署名するファイルが「本物」であることを証明する署名ファイルを作成します。
 ```
-signas sign example.txt TAICHI1129
+bashsignas sign <file> <signer_name> [github_url]
+```
+例: signas sign data.zip TAICHI1129 https://github.com3. 
+
+ファイルを検証するファイルが改ざんされていないか、署名が正しいかを確認します。
+```
+bashsignas verify <file>
+```
+※実行には対象のファイル、<file>.signas、および署名者の public_key.pem が必要です。
+
+## .signas ファイルの仕様
+.signas は以下のデータを含む JSON 形式です：
+
+info: ファイルの SHA-256 ハッシュ値、署名者名、GitHub リンク。
+
+signature: メタデータに対して作成された Base64 エンコード済みの RSA-PSS 署名。
+
+例:
+```
+json{
+  "info": {
+    "hash": "5a51be41913d0...",
+    "signer": "TAICHI1129",
+    "github": "https://github.com"
+  },
+  "signature": "MIIBIjANBgkqh..."
+}
 ```
 
-* 名前と GitHub リンクを付けて署名する場合
-```
-signas sign example.txt TAICHI1129 [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
-```
+セキュリティ上の注意秘密鍵の管理: private_key.pem やそのパスワードを紛失すると、二度と署名ができなくなります。
 
-* ファイルのハッシュを確認する場合
-```
-signas hash example.txt
-```
-
-* ファイル名を変更しても署名を確認する場合
-```
-signas verify renamed_example.txt example.signas
-```
+公開鍵の配布: 検証者は、信頼できるルートから入手した公開鍵を使用してください。
