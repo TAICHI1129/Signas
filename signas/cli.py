@@ -37,9 +37,35 @@ def sign_file(filepath, name, github=None):
     
     print(f"Signature created: {sign_path}")
 
+def verify_file(filepath):
+    """ファイルと .signas を照合して検証"""
+    sign_path = filepath + ".signas"
+    if not os.path.exists(sign_path):
+        print(f"Error: Signature file '{sign_path}' not found.")
+        return
+
+    # 現在のファイルのハッシュを計算
+    current_hex = file_to_hex(filepath)
+    current_hash = hash_hex(current_hex)
+
+    # 署名ファイルの情報を読み込み
+    with open(sign_path, "r") as f:
+        sign_data = json.load(f)
+    
+    saved_hash = sign_data.get("hash")
+
+    if current_hash == saved_hash:
+        print("✅ Verification Successful: File is intact.")
+        print(f"Signed by: {sign_data.get('signer')}")
+    else:
+        print("❌ Verification Failed: File has been modified!")
+
 def main():
-    if len(sys.argv) < 2: # 引数が足りない場合のチェック
-        print("Usage: python script.py [sign|hash|view_info] [file] [name] [github]")
+    if len(sys.argv) < 2:
+        print("Usage:")
+        print("  python script.py sign <file> <name> [github_url]")
+        print("  python script.py verify <file>")
+        print("  python script.py view_info <signas_file>")
         return
 
     cmd = sys.argv[1].lower()
@@ -53,14 +79,11 @@ def main():
         github = sys.argv[4] if len(sys.argv) > 4 else None
         sign_file(filepath, name, github)
 
-    elif cmd == "hash":
+    elif cmd == "verify":
         if len(sys.argv) < 3:
             print("Error: Filepath is required")
             return
-        filepath = sys.argv[2]
-        hex_str = file_to_hex(filepath)
-        hashed = hash_hex(hex_str)
-        print(hashed)
+        verify_file(sys.argv[2])
 
     elif cmd == "view_info":
         if len(sys.argv) < 3:
@@ -69,14 +92,24 @@ def main():
         sign_path = sys.argv[2]
         try:
             with open(sign_path, "r") as f:
-                sign_data = json.load(f)
-                print(f"Signer: {sign_data.get('signer')}")
-                print(f"Hash:   {sign_data.get('hash')}")
+                data = json.load(f)
+                print(f"Signer: {data.get('signer')}")
+                print(f"Hash:   {data.get('hash')}")
+                if "github" in data:
+                    print(f"GitHub: {data.get('github')}")
         except FileNotFoundError:
             print("Error: Signature file not found")
+        except json.JSONDecodeError:
+            print("Error: Failed to decode signature file")
+
+    elif cmd == "hash":
+        if len(sys.argv) < 3:
+            print("Error: Filepath is required")
+            return
+        print(hash_hex(file_to_hex(sys.argv[2])))
 
     else:
-        print("Command not found")
+        print(f"Unknown command: {cmd}")
 
 if __name__ == "__main__":
     main()
