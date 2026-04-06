@@ -1,6 +1,6 @@
 [project]
 name = "signas"
-version = "0.1.9"
+version = "0.2.0"
 description = "File digital signature"
 readme = "README.md"
 authors = [{name = "TAICHI1129", email = "train.x956@gmail.com"}]
