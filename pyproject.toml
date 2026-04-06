@@ -1,0 +1,9 @@
+[project]
+name = "signas"
+version = "0.1.0"
+description = "File digital signature"
+authors = [{name = "TAICHI1129", email = "train.x956@gmail.com"}]
+dependencies = []  # No external dependencies
+
+[project.scripts]
+signas = "signas.cli:main"
