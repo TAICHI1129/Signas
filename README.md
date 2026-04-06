@@ -66,6 +66,7 @@ json{
 公開鍵の配布: 検証者は、信頼できるルートから入手した公開鍵を使用してください。
 
 ## 実行コード例
+
 1. 準備：鍵ペアの生成署名活動を始める前に、一度だけ実行します。
 ```
 signas genkey
@@ -76,7 +77,7 @@ signas genkey
 
 2. 署名：ファイルに電子署名を付与ファイルが「自分のものであること」と「改ざんされていないこと」を証明します。
   
-4. 例A：名前のみで署名する場合
+例A：名前のみで署名する場合
 ```
 signas sign report.pdf "Taro Yamada"
 ```
@@ -93,6 +94,7 @@ signas sign software.zip "TAICHI1129" "https://github.com"
 3. 検証：ファイルの真正性をチェック受け取ったファイルが本物かどうかを確認します。
    
 同じフォルダに 対象ファイル、.signasファイル、public_key.pem がある状態で実行します。
+
 ```
 signas verify software.zip
 ```
@@ -112,7 +114,6 @@ type audit.log
 cat audit.log
 ```
 表示例: [2024-05-20 12:00:00] ACTION: SIGN | FILE: software.zip | STATUS: SUCCESS | Signed by TAICHI1129
-
 
 5. ハッシュ値のみの確認署名を作らずに、単純にファイルのSHA-256値だけを見たい場合です。
 ```
