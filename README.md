@@ -107,7 +107,9 @@ signas verify software.zip
 失敗時（改ざんあり）: ❌ Verification Failed: File content has been tampered with! と表示されます。
 
 失敗時（署名の偽造）: ❌ Verification Failed: Invalid or forged signature. と表示されます。
----
+
+----
+
 4. 履歴の確認（ログ）いつ、どのファイルに対して操作を行ったかを確認します。
 ```
 #Windows
