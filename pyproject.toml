@@ -2,6 +2,7 @@
 name = "signas"
 version = "0.1.1"
 description = "File digital signature"
+readme = "README.md"
 authors = [{name = "TAICHI1129", email = "train.x956@gmail.com"}]
 dependencies = []  # No external dependencies
 
