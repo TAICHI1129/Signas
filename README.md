@@ -31,21 +31,31 @@ GitHub リンクも追加する場合は、`signas sign <file> <name> [github]` 
 任意項目として "github"（GitHub リンク）を追加できます。さらに元のファイル名は "original_filename" として記録されます。
 
 例として、次のような内容になります：
+```
 hash: 5a51be41913d0de774d527c684ee849205b10672b65dcfdf6023dca04cc10217
 signer: TAICHI1129
 original_filename: example.txt
 github: [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
+```
 
 ## 使用例
 
 * 名前のみで署名する場合
-  signas sign example.txt TAICHI1129
+```
+signas sign example.txt TAICHI1129
+```
 
 * 名前と GitHub リンクを付けて署名する場合
-  signas sign example.txt TAICHI1129 [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
+```
+signas sign example.txt TAICHI1129 [https://github.com/TAICHI1129](https://github.com/TAICHI1129)
+```
 
 * ファイルのハッシュを確認する場合
-  signas hash example.txt
+```
+signas hash example.txt
+```
 
 * ファイル名を変更しても署名を確認する場合
-  signas verify renamed_example.txt example.signas
+```
+signas verify renamed_example.txt example.signas
+```
