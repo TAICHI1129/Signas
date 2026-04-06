@@ -62,8 +62,8 @@ def main():
     else cmd == "view_info":
         print(sign_data["signer"])
         print(sign_data["hash"])
-    else:
+    elif:
         nf
 
-i: __name__ == "__main__":
+if: __name__ == "__main__":
     main()
