@@ -74,7 +74,9 @@ signas genkey
 入力内容: 秘密鍵を保護するためのパスワード（4文字以上）。
 
 生成物: private_key.pem（署名用）、public_key.pem（配布用）。
----
+
+----
+
 2. 署名：ファイルに電子署名を付与ファイルが「自分のものであること」と「改ざんされていないこと」を証明します。
   
 例A：名前のみで署名する場合
@@ -90,7 +92,9 @@ signas sign software.zip "TAICHI1129" "https://github.com"
 入力内容: genkey で設定したパスワード。
 
 生成物: report.pdf.signas または software.zip.signas。
----
+
+----
+
 3. 検証：ファイルの真正性をチェック受け取ったファイルが本物かどうかを確認します。
    
 同じフォルダに 対象ファイル、.signasファイル、public_key.pem がある状態で実行します。
@@ -113,7 +117,9 @@ type audit.log
 cat audit.log
 ```
 表示例: [2024-05-20 12:00:00] ACTION: SIGN | FILE: software.zip | STATUS: SUCCESS | Signed by TAICHI1129
----
+
+----
+
 5. ハッシュ値のみの確認署名を作らずに、単純にファイルのSHA-256値だけを見たい場合です。
 ```
 signas hash sample.txt
